@@ -25,13 +25,14 @@
             <TextBlock HorizontalAlignment="Center" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="1">Tutaj Twoja Inteligentna Pralka</TextBlock>
             <TextBlock HorizontalAlignment="Center" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="2">Rozpocznij pranie lub zobacz historie</TextBlock>
 
-            <Button Name="MainBtn" Width="200" Height="100" Grid.Row="3" Margin="15" cal:Message.Attach ="[Event Click] = [Action StartRecognition]" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="60"  Style="{StaticResource ButtonStyle}">
+            <Button Name="MainBtn" Width="250" Height="100" Grid.Row="3" Margin="15" cal:Message.Attach ="[Event Click] = [Action StartRecognition]" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="60"  Style="{StaticResource ButtonStyle}">
 
                 <Grid>
                     <Label Content="START" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
             </Button>
-            <Button Name="OrderHistoryBtn" Width="200" Height="100" Grid.Row="4" Margin="5" cal:Message.Attach ="[Event Click] = [Action GetFromHistory]" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="60"   Style="{StaticResource ButtonStyle}">
+
+            <Button Name="OrderHistoryBtn" Width="250" Height="100" Grid.Row="4" Margin="5" cal:Message.Attach ="[Event Click] = [Action GetFromHistory]" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="60"   Style="{StaticResource ButtonStyle}">
 
                 <Grid>
                     <Label Content="HISTORIA" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />

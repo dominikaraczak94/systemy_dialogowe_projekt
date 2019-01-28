@@ -48,6 +48,8 @@ namespace WashingMachineServiceWPF.ViewModels
         private Order _order;
         private DatabaseService _databaseService;
         private Visibility _washingMachineProgramInfoVisibility;
+        private RecognitionFromSentenceService _recognitionFromSentence;
+        private bool _quickRecognition;
 
         public WashingMachineViewModel()
 
@@ -65,6 +67,7 @@ namespace WashingMachineServiceWPF.ViewModels
             _recognitionService = new RecognitionService(_eventAggregator);
             _synthesizerService = new SynthesizerService();
             _databaseService = new DatabaseService();
+            _recognitionFromSentence = new RecognitionFromSentenceService();
         }
 
         public Visibility MainGridVisibility
@@ -187,9 +190,14 @@ namespace WashingMachineServiceWPF.ViewModels
             }
         }
 
-        public async void Handle(RecognitionResultEvent message)
+        public void Handle(RecognitionResultEvent message)
         {
             _result = message.Message;
+            if (_quickRecognition)
+            {
+                _recognitionFromSentence.Recognize(_result);
+                return;
+            }
             if (_washingProgramView)
             {
                 _washingProgramView = ProceedWashingProgram(_washingProgramModel.Programs);
@@ -203,9 +211,9 @@ namespace WashingMachineServiceWPF.ViewModels
                 {
                     WashingProgramGridVisibility = Visibility.Hidden;
                     WashingTimeGridVisibility = Visibility.Visible;
+                    _synthesizerService.Synthesize("Wybierz długość prania");
                     WashingMachineProgramInfo = string.Empty;
                     WashingMachineProgramInfoVisibility = Visibility.Hidden;
-                    await RunSynthetizer();
                     return;
                 }
             }
@@ -226,10 +234,9 @@ namespace WashingMachineServiceWPF.ViewModels
                 {
                     WashingTimeGridVisibility = Visibility.Hidden;
                     WashingTemperatureGridVisibility = Visibility.Visible;
+                    _synthesizerService.Synthesize("Wybierz temperaturę");
                     WashingMachineProgramInfo = string.Empty;
                     WashingMachineProgramInfoVisibility = Visibility.Hidden;
-                    //   new Task(() => _synthesizerService.Synthesize("Wybierz temperaturę prania")).Start();
-                    _synthesizerService.Synthesize("Wybierz temperaturę prania");
                     return;
                 }
             }
@@ -312,11 +319,6 @@ namespace WashingMachineServiceWPF.ViewModels
             return summary;
         }
 
-        private async Task RunSynthetizer()
-        {
-            await Task.Run(() => _synthesizerService.Synthesize("Wybierz długość prania"));
-        }
-
         public bool ProceedWashingProgram(List<string> elements)
         {
             WashingMachineProgramInfoVisibility = Visibility.Visible;
@@ -359,6 +361,12 @@ namespace WashingMachineServiceWPF.ViewModels
         {
             MainGridVisibility = Visibility.Visible;
             OrderHistoryGridVisibility = Visibility.Hidden;
+        }
+
+        public void RunQuickOrder()
+        {
+            _recognitionService.RecognizeSpeechContinuously();
+            _quickRecognition = true;
         }
     }
 }

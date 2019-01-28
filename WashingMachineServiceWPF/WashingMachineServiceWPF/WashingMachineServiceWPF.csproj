@@ -112,6 +112,7 @@
     <Compile Include="Models\WashingProgramModel.cs" />
     <Compile Include="Models\WashingTemperatureModel.cs" />
     <Compile Include="Services\DatabaseService.cs" />
+    <Compile Include="Services\RecognitionFromSentenceService.cs" />
     <Compile Include="Services\RecognitionResultEvent.cs" />
     <Compile Include="Services\RecognitionService.cs" />
     <Compile Include="Services\SynthesizerService.cs" />
