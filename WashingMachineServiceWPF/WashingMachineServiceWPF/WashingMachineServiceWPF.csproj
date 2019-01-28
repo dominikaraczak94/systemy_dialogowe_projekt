@@ -135,10 +135,41 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LICENSE.TXT" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\README.TXT" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LICENSE.TXT" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\README.TXT" />
+    <Resource Include="Fonts\ds_digital\DIGITAL.TXT" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="digital.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\ds_digital\DS-DIGI.TTF" />
+    <Resource Include="Fonts\ds_digital\DS-DIGIB.TTF" />
+    <Resource Include="Fonts\ds_digital\DS-DIGII.TTF" />
+    <Resource Include="Fonts\ds_digital\DS-DIGIT.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDM2B__.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDM2L__.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDM2N__.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDM2U__.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDMB___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDML___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDMN___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDMonoWinTT\LCDMU___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD-BOLD.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD-L___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD-N___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD-U___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD2B___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD2L___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD2N___.TTF" />
+    <Resource Include="Fonts\lcd_lcd_mono\LCDWinTT\LCD2U___.TTF" />
+    <Resource Include="Fonts\DS-DIGII.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

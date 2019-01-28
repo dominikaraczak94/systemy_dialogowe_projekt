@@ -6,40 +6,90 @@
              xmlns:local="clr-namespace:WashingMachineServiceWPF.Views"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800" FontFamily="Global User Interface">
 
-    <Grid Width="700" Height="600" Background="LightBlue">
+    <Grid Width="800" Height="600" Background="#9dd6d6">
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Name="MainGrid"   Visibility="{Binding MainGridVisibility}">
+        <Grid Name="MainGrid" VerticalAlignment="Center" Visibility="{Binding MainGridVisibility}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="4*"></RowDefinition>
                 <RowDefinition Height="4*"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0">Witaj! Tutaj Twoja Inteligentna Pralka</TextBlock>
-            <TextBlock Grid.Row="1">Naciśnij start aby rozpoacząć pranie lub zobacz historię</TextBlock>
-            <Button Name="MainBtn" Width="200" Height="100" Grid.Row="2" Margin="5" cal:Message.Attach ="[Event Click] = [Action StartRecognition]" Background="MidnightBlue">
+            <TextBlock HorizontalAlignment="Center" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="0">Witaj!</TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="1">Tutaj Twoja Inteligentna Pralka</TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="2">Rozpocznij pranie lub zobacz historie</TextBlock>
+
+            <Button Name="MainBtn" Width="200" Height="100" Grid.Row="3" Margin="15" cal:Message.Attach ="[Event Click] = [Action StartRecognition]" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="60"  Style="{StaticResource ButtonStyle}">
+
                 <Grid>
-                    <Label Content="START" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="PaleTurquoise" />
+                    <Label Content="START" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
             </Button>
-            <Button Name="OrderHistoryBtn" Width="300" Height="100" Grid.Row="3" Margin="5" cal:Message.Attach ="[Event Click] = [Action GetFromHistory]" Background="MidnightBlue">
+            <Button Name="OrderHistoryBtn" Width="200" Height="100" Grid.Row="4" Margin="5" cal:Message.Attach ="[Event Click] = [Action GetFromHistory]" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="60"   Style="{StaticResource ButtonStyle}">
+
                 <Grid>
-                    <Label Content="ZOBACZ HISTORIĘ" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="PaleTurquoise" />
+                    <Label Content="HISTORIA" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
             </Button>
         </Grid>
 
-        <Grid Name="OrderHistoryGrid" Grid.Row="0"  Margin="50,0,50,0" Visibility="{Binding OrderHistoryGridVisibility}" Background="LightBlue">
+        <Grid Name="OrderHistoryGrid" Grid.Row="0"  Margin="50,0,50,0" Visibility="{Binding OrderHistoryGridVisibility}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <ListView ItemsSource="{Binding OrderHistoryList}" x:Name ="OrderHistoryListView"  HorizontalContentAlignment="Center"  Grid.Row="0" VerticalContentAlignment="Center"  Background="LightBlue" FontSize="15" BorderThickness="0">
+            <ListView ItemsSource="{Binding OrderHistoryList}" x:Name ="OrderHistoryListView" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital"   HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" VerticalContentAlignment="Center"  Background="#9dd6d6" FontSize="25" BorderThickness="0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="10" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+            <Button Name="BackBtn" Width="200" Height="50" Grid.Row="1" Margin="5" cal:Message.Attach ="[Event Click] = [Action BackToMainMenu]" Style="{StaticResource ButtonStyle}">
+                <Grid>
+                    <Label Content="POWROT" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+            </Button>
+        </Grid>
+
+        <Grid Name="WashingProgramGrid" Grid.Row="0" Margin="50,0,50,0" Visibility="{Binding WashingProgramGridVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Name="WashingType1" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" >Codzienne</TextBlock>
+            <TextBlock Name="WashingType2" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >Delikatne</TextBlock>
+            <TextBlock Name="WashingType3" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Mocno zabrudzone</TextBlock>
+            <TextBlock Name="WashingType4" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >Dzieciece</TextBlock>
+            <TextBlock Name="WashingType5" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" >Buty</TextBlock>
+            <TextBlock Name="WashingType6" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" FontSize="30" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >Sportowe</TextBlock>
+        </Grid>
+
+        <Grid Name="WashingTimeGrid" Grid.Row="0" Margin="50,0,50,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WashingTimeGridVisibility}">
+            <ListView ItemsSource="{Binding ListOfTimeTypes}" Margin="40"  FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital"  Background="#9dd6d6" FontSize="30" BorderThickness="0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Margin" Value="10" />
@@ -57,51 +107,13 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-
-            <Button Name="BackBtn" Width="200" Height="50" Grid.Row="1" Margin="5" cal:Message.Attach ="[Event Click] = [Action BackToMainMenu]" Background="MidnightBlue">
-                <Grid>
-                    <Label Content="POWRÓT" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="PaleTurquoise" />
-                </Grid>
-            </Button>
         </Grid>
 
-        <Grid Name="WashingProgramGrid" Grid.Row="0" Margin="50,0,50,0" Visibility="{Binding WashingProgramGridVisibility}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+        <Grid Name="WashingTemperatureGrid" Grid.Row="0" Margin="50,0,50,0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding WashingTemperatureGridVisibility}">
 
-            <TextBlock Name="WashingType1"  FontSize="30" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" >Codzienne</TextBlock>
-            <TextBlock Name="WashingType2"  FontSize="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >Delikatne</TextBlock>
-            <TextBlock Name="WashingType3"  FontSize="30" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">Mocno zabrudzone</TextBlock>
-            <TextBlock Name="WashingType4"  FontSize="30" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >Dziecięce</TextBlock>
-            <TextBlock Name="WashingType5"  FontSize="30" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" >Buty</TextBlock>
-            <TextBlock Name="WashingType6"  FontSize="30" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >Sportowe</TextBlock>
-        </Grid>
-
-        <Grid Name="WashingTimeGrid" Grid.Row="0" Margin="50,0,50,0" Visibility="{Binding WashingTimeGridVisibility}">
-            <ListView ItemsSource="{Binding ListOfTimeTypes}" Margin="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Background="LightBlue" FontSize="30" BorderThickness="0">
+            <ListView ItemsSource="{Binding ListOfTemperatures}" Margin="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital" Background="#9dd6d6" FontSize="30" BorderThickness="0">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="Focusable" Value="false" />
-                        <Setter Property="Margin" Value="10" />
-                        <Setter Property="Padding" Value="10" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </Grid>
-
-        <Grid Name="WashingTemperatureGrid" Grid.Row="0" Margin="50,0,50,0" Visibility="{Binding WashingTemperatureGridVisibility}">
-
-            <ListView ItemsSource="{Binding ListOfTemperatures}" Margin="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Background="LightBlue" FontSize="30" BorderThickness="0">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Focusable" Value="false" />
                         <Setter Property="Margin" Value="10" />
                         <Setter Property="Padding" Value="10" />
                         <Setter Property="Template">
@@ -120,9 +132,10 @@
 
         <Grid Name="WashingSummaryGrid" Grid.Row="0" Margin="50,0,50,150" Visibility="{Binding WashingSummaryGridVisibility}" Height="450" Grid.RowSpan="2" VerticalAlignment="Bottom">
             <TextBlock Name="WashingMachineSummary"
-                           FontSize="30"
+                           FontSize="40"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
+                           FontFamily="/WashingMachineServiceWPF;component/fonts/ds_digital/#DS-Digital"
                            Text="{Binding WashingMachineProgramSummary}" />
         </Grid>
         <TextBlock HorizontalAlignment="Center"
@@ -130,6 +143,10 @@
                      Name="WashingStepSummary"
                      Text="{Binding WashingMachineProgramInfo}"
                      FontSize="20"
-                     Grid.Row="1" />
+                     Padding="15"
+                     Background="#698e8e"
+                     Grid.Row="1"
+                     Visibility="{Binding WashingMachineProgramInfoVisibility}"
+                     Opacity="0.7" />
     </Grid>
 </UserControl>

@@ -9,6 +9,9 @@ namespace WashingMachineServiceWPF.Models
         public List<string> Times => new List<string>()
             {"krótkie", "standardowe", "długie"};
 
+        public List<string> TimesToWrite => new List<string>()
+            {"krotkie", "standardowe", "dlugie"};
+
         public int Id { get; set; }
         public string WashingTime { get; set; }
         public int WashingProgramId { get; set; }
@@ -24,11 +27,11 @@ namespace WashingMachineServiceWPF.Models
                 time += int.Parse(minutes);
             }
 
-            if (timeType == "krótkie")
+            if (timeType == "krotkie" || timeType == "krótkie")
             {
                 time = time * 4 / 10;
             }
-            else if (timeType == "długie")
+            else if (timeType == "dlugie" || timeType == "długie")
             {
                 time = time * 13 / 10;
             }
@@ -38,7 +41,7 @@ namespace WashingMachineServiceWPF.Models
 
         public List<string> CreateWashingTimesList()
         {
-            return Times.Select(t => $"{t} ({RecalculateTime(t)})").ToList();
+            return TimesToWrite.Select(t => $"{t} ({RecalculateTime(t)})").ToList();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using WashingMachineService.Services;
 using WashingMachineServiceWPF.Models;
@@ -46,6 +47,7 @@ namespace WashingMachineServiceWPF.ViewModels
         private List<Order> _orderHistoryList;
         private Order _order;
         private DatabaseService _databaseService;
+        private Visibility _washingMachineProgramInfoVisibility;
 
         public WashingMachineViewModel()
 
@@ -57,6 +59,7 @@ namespace WashingMachineServiceWPF.ViewModels
             WashingTemperatureGridVisibility = Visibility.Hidden;
             WashingSummaryGridVisibility = Visibility.Hidden;
             OrderHistoryGridVisibility = Visibility.Hidden;
+            WashingMachineProgramInfoVisibility = Visibility.Hidden;
             _eventAggregator = new EventAggregator();
             _eventAggregator.Subscribe(this);
             _recognitionService = new RecognitionService(_eventAggregator);
@@ -144,6 +147,16 @@ namespace WashingMachineServiceWPF.ViewModels
             }
         }
 
+        public Visibility WashingMachineProgramInfoVisibility
+        {
+            get => _washingMachineProgramInfoVisibility;
+            set
+            {
+                _washingMachineProgramInfoVisibility = value;
+                NotifyOfPropertyChange(() => WashingMachineProgramInfoVisibility);
+            }
+        }
+
         public List<string> ListOfTimeTypes
         {
             get => _listOfTimeTypes;
@@ -174,7 +187,7 @@ namespace WashingMachineServiceWPF.ViewModels
             }
         }
 
-        public void Handle(RecognitionResultEvent message)
+        public async void Handle(RecognitionResultEvent message)
         {
             _result = message.Message;
             if (_washingProgramView)
@@ -190,8 +203,9 @@ namespace WashingMachineServiceWPF.ViewModels
                 {
                     WashingProgramGridVisibility = Visibility.Hidden;
                     WashingTimeGridVisibility = Visibility.Visible;
-                    _synthesizerService.Synthesize("Wybierz długość prania");
                     WashingMachineProgramInfo = string.Empty;
+                    WashingMachineProgramInfoVisibility = Visibility.Hidden;
+                    await RunSynthetizer();
                     return;
                 }
             }
@@ -212,8 +226,10 @@ namespace WashingMachineServiceWPF.ViewModels
                 {
                     WashingTimeGridVisibility = Visibility.Hidden;
                     WashingTemperatureGridVisibility = Visibility.Visible;
-                    _synthesizerService.Synthesize("Wybierz temperaturę prania");
                     WashingMachineProgramInfo = string.Empty;
+                    WashingMachineProgramInfoVisibility = Visibility.Hidden;
+                    //   new Task(() => _synthesizerService.Synthesize("Wybierz temperaturę prania")).Start();
+                    _synthesizerService.Synthesize("Wybierz temperaturę prania");
                     return;
                 }
             }
@@ -242,21 +258,68 @@ namespace WashingMachineServiceWPF.ViewModels
             if (_washingSummaryView)
             {
                 var summary =
-                    $"Wybrano \ntryb prania: {_order.WashingProgram} \nczas prania: {_order.WashingTimeType} \ntemperaturę: {_order.WashingTemperature}";
-                WashingMachineProgramSummary = summary + "°C\n" + _order.WashingTimeToString();
+                    $"Wybrano \ntryb prania: {_order.WashingProgram} \nczas prania: {_order.WashingTimeType} \ntemperatura: {_order.WashingTemperature}";
+
+                WashingMachineProgramSummary = ChangeSummary(summary) + "°C\n" + _order.WashingTimeToString();
                 WashingMachineProgramInfo = "Powiedz OK";
                 if (_result == "okej")
                 {
                     _databaseService.InsertOrderToDatabase(_order);
                     _synthesizerService.Synthesize(
-                        $"Wybrano\n tryb prania: {_order.WashingProgram},\n czas prania: {_order.WashingTimeType}\ntemperaturę: {_order.WashingTemperature}stopni Celsjusza\n" + _order.WashingTimeToString());
+                        $"Wybrano\n tryb prania: {_order.WashingProgram},\n czas prania: {_order.WashingTimeType}\ntemperatura: {_order.WashingTemperature}stopni Celsjusza\n" + _order.WashingTimeToString());
                     Application.Current.Shutdown();
                 }
             }
         }
 
+        private string ChangeSummary(string summary)
+        {
+            if (summary.Contains("ó"))
+            {
+                summary = summary.Replace('ó', 'o');
+            }
+
+            if (summary.Contains("ł"))
+            {
+                summary = summary.Replace('ł', 'l');
+            }
+
+            if (summary.Contains("ą"))
+            {
+                summary = summary.Replace('ą', 'a');
+            }
+
+            if (summary.Contains("ć"))
+            {
+                summary = summary.Replace('ć', 'c');
+            }
+
+            if (summary.Contains("ę"))
+            {
+                summary = summary.Replace('ę', 'e');
+            }
+
+            if (summary.Contains("ś"))
+            {
+                summary = summary.Replace('ś', 's');
+            }
+
+            if (summary.Contains("ź"))
+            {
+                summary = summary.Replace('ź', 'z');
+            }
+
+            return summary;
+        }
+
+        private async Task RunSynthetizer()
+        {
+            await Task.Run(() => _synthesizerService.Synthesize("Wybierz długość prania"));
+        }
+
         public bool ProceedWashingProgram(List<string> elements)
         {
+            WashingMachineProgramInfoVisibility = Visibility.Visible;
             if (elements.Contains(_result))
             {
                 WashingMachineProgramInfo = "Twój wybór to: " + _result + ". Jeśli się zgadzasz powiedz OK";
@@ -282,7 +345,7 @@ namespace WashingMachineServiceWPF.ViewModels
             _recognitionService.RecognizeSpeechContinuously();
             _washingProgramView = true;
             _order = new Order();
-            _synthesizerService.Synthesize("Wybierz program");
+            new Task(() => _synthesizerService.Synthesize("Wybierz program")).Start();
         }
 
         public void GetFromHistory()
